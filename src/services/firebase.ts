@@ -9,7 +9,7 @@ import {
   httpsCallable,
   type Functions,
 } from "firebase/functions";
-import { env } from "../utils/env";
+import { env } from "../env";
 
 // Initialize Firebase with universal config
 // This uses the safe env loader to prevent crashes if keys are missing
