@@ -1,10 +1,13 @@
 import React from 'react';
 import { CaseStudy } from '../types';
-import { ArrowLeft, Share2, Download, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Share2, Download, ExternalLink, Calendar, Clock, Youtube, Instagram, Music } from 'lucide-react';
+import { PipelineRunner } from './PipelineRunner';
 
 interface Props {
   data: CaseStudy;
+  allCaseStudies: CaseStudy[]; // New Prop
   onBack: () => void;
+  onUpdateCaseStudy?: (updated: CaseStudy) => void; // New Prop
 }
 
 const SectionHeader: React.FC<{ title: string; number: string }> = ({ title, number }) => (
@@ -20,7 +23,7 @@ const Tag: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </span>
 );
 
-const CaseStudyDetail: React.FC<Props> = ({ data, onBack }) => {
+const CaseStudyDetail: React.FC<Props> = ({ data, allCaseStudies, onBack, onUpdateCaseStudy }) => {
   return (
     <div className="min-h-screen bg-studio-black text-studio-accent animate-in fade-in duration-500">
       {/* Sticky Header */}
@@ -38,42 +41,104 @@ const CaseStudyDetail: React.FC<Props> = ({ data, onBack }) => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-8 py-16">
+      <div className="max-w-5xl mx-auto px-8 py-16">
         
         {/* Hero */}
-        <header className="mb-20">
+        <header className="mb-12 relative">
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-xs text-studio-muted uppercase tracking-widest">{data.type}</span>
             <div className="h-px flex-1 bg-studio-border"></div>
             <span className="font-mono text-xs text-studio-muted uppercase tracking-widest">{data.id}</span>
           </div>
-          <h1 className="font-serif text-6xl md:text-8xl leading-[0.9] text-white mb-6 tracking-tight">
-            {data.title}
-          </h1>
-          <p className="font-sans text-xl text-studio-muted max-w-2xl leading-relaxed">
-            {data.subtitle}
-          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+             <div>
+                <h1 className="font-serif text-6xl md:text-8xl leading-[0.9] text-white mb-6 tracking-tight">
+                  {data.title}
+                </h1>
+                <p className="font-sans text-xl text-studio-muted max-w-2xl leading-relaxed mb-6">
+                  {data.subtitle}
+                </p>
+                {/* Metadata Bar */}
+                <div className="flex flex-wrap gap-4 text-xs font-mono text-studio-muted mb-8">
+                  {data.year && <div className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {data.year}</div>}
+                  {data.distribution?.duration && <div className="flex items-center gap-1"><Clock className="w-3 h-3" /> {data.distribution.duration}</div>}
+                  {data.distribution?.youtubeUrl && <a href={data.distribution.youtubeUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white"><Youtube className="w-3 h-3" /> Watch</a>}
+                  {data.distribution?.instagramHandle && <a href={`https://instagram.com/${data.distribution.instagramHandle.replace('@','')}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white"><Instagram className="w-3 h-3" /> {data.distribution.instagramHandle}</a>}
+                </div>
+             </div>
+             {/* Hero Image */}
+             {data.assets?.hero && (
+               <div className="aspect-video w-full rounded-lg overflow-hidden border border-studio-border">
+                 <img src={data.assets.hero} alt={data.title} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+               </div>
+             )}
+          </div>
         </header>
+
+        {/* --- ORCHESTRATOR PIPELINE UI --- */}
+        <PipelineRunner 
+          caseStudy={data} 
+          allCaseStudies={allCaseStudies} 
+          onCaseStudyUpdated={onUpdateCaseStudy} 
+        />
+        {/* -------------------------------- */}
 
         {/* 1. Overview */}
         <SectionHeader number="01" title="Overview" />
         <p className="font-sans text-lg text-studio-accent leading-relaxed max-w-3xl">
           {data.overview}
         </p>
+        {data.tags && (
+          <div className="flex flex-wrap gap-2 mt-6">
+            {data.tags.map((tag, i) => (
+              <span key={i} className="text-xs text-studio-muted bg-studio-charcoal/50 px-2 py-1 rounded">#{tag}</span>
+            ))}
+          </div>
+        )}
+        
+        {/* Feature Outline (If available) */}
+        {data.featureOutline && (
+          <div className="mt-12 bg-neutral-900/30 p-8 border-l border-studio-border">
+            <h4 className="font-mono text-xs text-studio-muted uppercase mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 bg-studio-accent rounded-full"></span>
+              Feature Documentary Structure
+            </h4>
+            <div className="space-y-8 relative">
+              {/* Vertical line connector */}
+              <div className="absolute left-[3px] top-2 bottom-2 w-px bg-studio-border/50"></div>
+              
+              {data.featureOutline.map((chapter, idx) => (
+                <div key={idx} className="relative pl-6">
+                  {/* Dot */}
+                  <div className="absolute left-0 top-2 w-1.5 h-1.5 bg-studio-muted rounded-full"></div>
+                  <h5 className="font-serif text-lg text-white mb-2">{chapter.title}</h5>
+                  <ul className="text-sm text-studio-muted space-y-1">
+                    {chapter.items.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                         <span className="opacity-50">–</span> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* 2. What We Did */}
         <SectionHeader number="02" title="The Approach" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h4 className="font-mono text-xs text-studio-muted uppercase mb-3">Production</h4>
+            <h4 className="font-mono text-xs text-studio-muted uppercase mb-3 text-white">Production</h4>
             <p className="text-sm leading-relaxed text-neutral-400">{data.whatWeDid.approach}</p>
           </div>
           <div>
-            <h4 className="font-mono text-xs text-studio-muted uppercase mb-3">Visuals</h4>
+            <h4 className="font-mono text-xs text-studio-muted uppercase mb-3 text-white">Visuals</h4>
             <p className="text-sm leading-relaxed text-neutral-400">{data.whatWeDid.visualLanguage}</p>
           </div>
           <div>
-            <h4 className="font-mono text-xs text-studio-muted uppercase mb-3">Editorial</h4>
+            <h4 className="font-mono text-xs text-studio-muted uppercase mb-3 text-white">Editorial</h4>
             <p className="text-sm leading-relaxed text-neutral-400">{data.whatWeDid.editorial}</p>
           </div>
         </div>
@@ -105,19 +170,25 @@ const CaseStudyDetail: React.FC<Props> = ({ data, onBack }) => {
           </div>
         </div>
 
-        {/* 5. Visual Concepts */}
-        <SectionHeader number="05" title="Visual Concepts" />
+        {/* 5. Visual Concepts / Gallery */}
+        <SectionHeader number="05" title="Visual Assets" />
+        
+        {/* Actual Stills from Assets */}
+        {data.assets?.stills && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {data.assets.stills.map((src, i) => (
+              <div key={i} className="aspect-[4/3] rounded overflow-hidden border border-studio-border group">
+                <img src={src} alt={`Still ${i}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Conceptual Descriptions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {data.visuals.map((vis, idx) => (
-            <div key={idx} className="aspect-video bg-neutral-800 rounded-lg relative overflow-hidden group">
-               <img 
-                src={`https://picsum.photos/800/600?random=${idx}-${data.id}`} 
-                alt="Concept" 
-                className="absolute inset-0 w-full h-full object-cover opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-70 transition-all duration-700"
-              />
-              <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent w-full">
-                <p className="text-sm font-medium text-white">{vis}</p>
-              </div>
+            <div key={idx} className="p-4 bg-neutral-800/50 rounded border-l-2 border-studio-muted">
+                <p className="text-sm font-medium text-neutral-300">{vis}</p>
             </div>
           ))}
         </div>
@@ -148,11 +219,11 @@ const CaseStudyDetail: React.FC<Props> = ({ data, onBack }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
                 <div>
-                    <h5 className="text-sm font-bold text-white mb-1">YouTube</h5>
+                    <h5 className="text-sm font-bold text-white mb-1 flex items-center gap-2"><Youtube className="w-4 h-4" /> YouTube</h5>
                     <p className="text-sm text-studio-muted">{data.releasePlan.youtube}</p>
                 </div>
                 <div>
-                    <h5 className="text-sm font-bold text-white mb-1">Social Ecosystem</h5>
+                    <h5 className="text-sm font-bold text-white mb-1 flex items-center gap-2"><Instagram className="w-4 h-4" /> Social Ecosystem</h5>
                     <p className="text-sm text-studio-muted">{data.releasePlan.socials}</p>
                 </div>
             </div>
@@ -170,10 +241,11 @@ const CaseStudyDetail: React.FC<Props> = ({ data, onBack }) => {
 
         {/* 8. Web Layout */}
          <SectionHeader number="08" title="On-Site Component" />
-         <div className="border border-dashed border-studio-border p-8 rounded-lg">
+         <div className="border border-dashed border-studio-border p-8 rounded-lg bg-black/50">
             <div className="flex flex-col items-center text-center space-y-6">
-                <div className="w-full h-48 bg-neutral-800 rounded flex items-center justify-center text-neutral-600 font-mono text-xs">
-                    {data.layout.hero}
+                <div className="w-full h-32 bg-neutral-900 rounded flex items-center justify-center text-neutral-600 font-mono text-xs relative overflow-hidden group">
+                     {data.assets?.hero && <img src={data.assets.hero} className="absolute inset-0 w-full h-full object-cover opacity-20" />}
+                     <span className="relative z-10">{data.layout.hero}</span>
                 </div>
                 <div className="flex gap-4 font-mono text-xs text-studio-muted">
                     <span>{data.layout.flow.split('->').join(' → ')}</span>
@@ -181,16 +253,6 @@ const CaseStudyDetail: React.FC<Props> = ({ data, onBack }) => {
                 <button className="px-8 py-3 bg-white text-black font-sans text-sm font-bold uppercase tracking-wider hover:bg-neutral-200 transition-colors">
                     {data.layout.cta}
                 </button>
-            </div>
-         </div>
-
-         {/* 9. SEO */}
-         <div className="mt-16 pt-8 border-t border-studio-border">
-            <h4 className="font-mono text-xs text-studio-muted uppercase mb-4">Search Keywords</h4>
-            <div className="flex flex-wrap gap-2">
-                {data.seo.map((k, i) => (
-                    <span key={i} className="text-xs text-neutral-600">#{k.replace(/\s+/g, '')}</span>
-                ))}
             </div>
          </div>
 

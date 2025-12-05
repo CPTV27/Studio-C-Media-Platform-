@@ -6,51 +6,94 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
     title: 'Ardent Studios',
     subtitle: 'Memphis, TN',
     type: 'Studio',
-    overview: 'A monolithic institution of American sound. Ardent is not just a facility; it is a repository of music history, from Big Star to the White Stripes. We position it as a living museum where the recording light never turns off.',
+    year: 2024,
+    tags: ['heritage', 'memphis', 'documentary', 'analog', 'sennheiser'],
+    overview: 'Ardent is a room with decades in the walls—rock, soul, and engineering craft held together by people who understand the difference between signal and noise. The feature focuses on the spaces that built records, the hands that keep them running, and the quiet confidence of a studio that was never chasing relevance. It simply stayed relevant.',
     whatWeDid: {
-      approach: 'Mythological & Reverent. We treated the console and the rooms as characters, not objects.',
-      visualLanguage: 'Deep shadows, warm tungsten practicals, slow tracking shots of vintage outboard gear. The "Church of Sound" aesthetic.',
-      editorial: 'Focus on the lineage—how the gear used today is the same gear that cut the classics.'
+      approach: 'Restrained & Observational. Coverage, not promotion.',
+      visualLanguage: 'Low-key tungsten, hand details on faders, rack close-ups, tape machines in shallow DOF.',
+      editorial: 'Focus on lineage—how the gear used today is the same gear that cut the classics. A portrait of a place still doing the work.'
     },
+    featureOutline: [
+      {
+        title: 'Opening: The Hallway',
+        items: ['Slow pan of the corridor', 'Still frames of tape machines', 'The quiet hum of the facility']
+      },
+      {
+        title: 'Chapter 1: The Rooms',
+        items: ['Control Room A', 'The Tracking Room', 'The piano with history baked in']
+      },
+      {
+        title: 'Chapter 2: The People',
+        items: ['Engineers as storytellers', 'Notes about lineage (Big Star, etc.)']
+      },
+      {
+        title: 'Chapter 3: The Work',
+        items: ['Modern acts recording', 'Detail shots: mics, consoles, patch bays', 'The moment where craft meets instinct']
+      },
+      {
+        title: 'Chapter 4: Heritage Without Nostalgia',
+        items: ['The place isn’t a museum', 'It’s a working studio, still evolving']
+      },
+      {
+        title: 'Closing: The Light in the Booth',
+        items: ['The session ends', 'The story doesn’t']
+      }
+    ],
     deliverables: [
-      'Docu-style Brand Film (3:00)',
-      '15s "Texture" Loops for Social',
-      'Gear Spotlight Series (Vertical)',
-      'Editorial Photo Essay'
+      '12:47 Documentary Feature',
+      '3x Cinematic Reels (Control Room, Gear, Engineer)',
+      'Podcast: "The Quiet Room" (15m)',
+      'Sennheiser Micro-piece'
     ],
     impact: {
-      business: 'Re-established relevance for a younger generation of indie rock producers.',
-      visibility: 'Featured in Mix Mag digital; 20k+ organic views on launch week.',
-      value: 'Evergreen asset that validates premium day rates through historical prestige.'
+      business: 'Demonstrates the full Studio C model: Feature -> Coverage -> Archive.',
+      visibility: 'Positions Ardent as the "heritage studio" archetype for the platform.',
+      value: 'The product is not the video. The product is the visibility.'
     },
     visuals: [
-      'Wide shot of Studio A control room, empty chair, console aglow.',
-      'Macro detail of VU meters peaking warm.',
-      'Silhouette of engineer against the hallway glass.',
-      'Dust motes dancing in the live room spotlight.'
+      'Hero: Low-key tungsten-lit board shots',
+      'Detail: Hand details on faders, rack close-ups (Neve, compressors)',
+      'Atmosphere: Dust motes dancing in the live room spotlight',
+      'Portrait: Engineer silhouettes against the hallway glass',
+      'Texture: Tape machines in shallow DOF'
     ],
     taglines: [
-      'Where the ghosts have rhythm.',
-      'Ardent: Recorded History.',
-      'The Memphis Standard.',
-      'Your sound, inherited.',
-      'Legends aren’t made. They record here.'
+      'Where the catalog lives on.',
+      'A Memphis story in every channel.',
+      'Legacy, recorded.',
+      'The room that shaped the room.',
+      'Ardent: Still in session.'
     ],
     quotes: [
-      '"You don\'t book Ardent for the gear. You book it for the air."',
-      '"Studio C captured the weight of the room."',
-      '"Finally, the visuals match the discography."'
+      '"You don\'t just record here — you join the story."',
+      '"Every piece of gear carries a memory."',
+      '"Memphis runs through the wiring."'
     ],
     seo: ['Ardent Studios Memphis', 'Historic Recording Studios', 'Big Star Studio', 'Analog Recording Memphis', 'Music Documentary Production', 'Studio C Media', 'Vintage Neve Console', 'Recording Studio Documentary'],
+    assets: {
+      hero: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop',
+      stills: [
+        'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1519508234439-4f23643125c1?q=80&w=2098&auto=format&fit=crop'
+      ]
+    },
+    distribution: {
+      youtubeUrl: 'https://youtube.com/studioc/ardent',
+      instagramHandle: '@studioc.ardent',
+      tiktokHandle: '@studioc',
+      duration: '12:47'
+    },
     releasePlan: {
-      youtube: 'Premiere as "Sunday Session" feature.',
-      socials: '3-part reel series focusing on: The Room, The Gear, The People.',
+      youtube: 'Feature: "Inside Ardent Studios — Memphis\' Recording Landmark" (12:47).',
+      socials: 'Reels: Control room cinematic, Gear detail, Engineer quote.',
       newsletter: 'Deep dive editorial: "Why Analog Still Matters."',
-      partners: 'Cross-post with Memphis Tourism Board.'
+      partners: 'Cross-post with Sennheiser and Memphis Tourism.'
     },
     layout: {
       hero: 'Full-screen cinematic loop of the Studio A sign flickering on.',
-      flow: 'History -> The Gear -> The Future -> Booking.',
+      flow: 'The Hallway -> The Gear -> The Lineage -> The Session.',
       cta: 'Book the Legend.'
     }
   },
@@ -59,12 +102,36 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
     title: 'Utopia Studios',
     subtitle: 'Woodstock, NY',
     type: 'Studio',
-    overview: 'A sanctuary for the modern creative class. Set in the hills of Woodstock, Utopia is positioned not just as a studio, but as a retreat—a place to disconnect from the industry to reconnect with the art.',
+    year: 2024,
+    tags: ['woodstock', 'indie', 'nature', 'retreat', 'creative-hub'],
+    overview: 'A sanctuary for the modern creative class. Set in the hills of Woodstock, Utopia is positioned not just as a studio, but as a retreat—a place to disconnect from the industry to reconnect with the art. Studio C documented its role as both a refuge and a launching pad.',
     whatWeDid: {
       approach: 'Atmospheric & Naturalistic. Emphasizing the isolation and the wood textures.',
       visualLanguage: 'Natural light, handheld organic camera movement, desaturated greens and browns. A24 horror/drama vibe but cozy.',
-      editorial: 'The "Lost Weekend" narrative. You come here to get away.'
+      editorial: 'The "Lost Weekend" narrative. You come here to get away. The studio as a living organism.'
     },
+    featureOutline: [
+      {
+        title: 'Opening: The Drive Up',
+        items: ['Winding roads', 'Mist in the trees', 'Arrival at the cabin']
+      },
+      {
+        title: 'Chapter 1: The Cabin',
+        items: ['Living spaces', 'The kitchen table', 'Communal living']
+      },
+      {
+        title: 'Chapter 2: The Live Room',
+        items: ['Wood textures', 'Natural light pouring in', 'Instruments waiting']
+      },
+      {
+        title: 'Chapter 3: The Process',
+        items: ['Band interaction', 'Writing on the porch', 'Late night sessions']
+      },
+      {
+        title: 'Closing: Nightfall',
+        items: ['Fireplace crackling', 'Silence outside', 'The light in the window']
+      }
+    ],
     deliverables: [
       'Atmosphere Reel (60s)',
       'Artist Residency Mini-Doc',
@@ -95,6 +162,19 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
       '"Woodstock\'s best kept secret."'
     ],
     seo: ['Utopia Studios Woodstock', 'Residential Recording Studio NY', 'Upstate NY Studio', 'Creative Retreat', 'Woodstock Music History', 'Destination Recording', 'Studio C Media'],
+    assets: {
+      hero: 'https://images.unsplash.com/photo-1449156493391-d2cfa28e468b?q=80&w=2074&auto=format&fit=crop',
+      stills: [
+        'https://images.unsplash.com/photo-1542359649-31e03cd4d909?q=80&w=2074&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1525201548942-d8732f6617a0?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop'
+      ]
+    },
+    distribution: {
+      youtubeUrl: 'https://youtube.com/studioc/utopia',
+      instagramHandle: '@utopiasound',
+      duration: '08:15'
+    },
     releasePlan: {
       youtube: 'Slow TV style ambience video (1 hour loop).',
       socials: 'ASMR-style gear setup reels.',
@@ -112,12 +192,36 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
     title: 'The Clubhouse',
     subtitle: 'Rhinebeck, NY',
     type: 'Studio',
-    overview: 'Boutique precision meets upstate charm. The Clubhouse is the engineer\'s playground. We highlighted the technical superiority wrapped in a warm, inviting shell.',
+    year: 2024,
+    tags: ['boutique', 'ssl', 'technical', 'mix-magazine', 'precision'],
+    overview: 'Boutique precision meets upstate charm. The Clubhouse is the engineer\'s playground. We highlighted the technical superiority wrapped in a warm, inviting shell. A mix-centric facility where the signal path is sacred.',
     whatWeDid: {
       approach: 'Technical & Tactile. Focusing on the distinct machinery and the "Mix Mag" cover aesthetic.',
       visualLanguage: 'Sharp focus, high contrast, vibrant colors (specifically the SSL lights). Macro lens dominance.',
-      editorial: 'Precision in the country. The best ears in the valley.'
+      editorial: 'Precision in the country. The best ears in the valley. The engineer as the hero.'
     },
+    featureOutline: [
+      {
+        title: 'Opening: The Facade',
+        items: ['Exterior of the barn', 'Contrast with the high-tech interior']
+      },
+      {
+        title: 'Chapter 1: The SSL',
+        items: ['Symmetry shots', 'Lights flickering', 'The heart of the room']
+      },
+      {
+        title: 'Chapter 2: The Outboard',
+        items: ['Walls of gear', 'Patch cables', 'Precision tools']
+      },
+      {
+        title: 'Chapter 3: The Engineer',
+        items: ['Interview at the desk', 'Listening intently', 'The philosophy of sound']
+      },
+      {
+        title: 'Closing: The River',
+        items: ['Sunset over the Hudson', 'Peace of mind']
+      }
+    ],
     deliverables: [
       'Tech Spec Walkthrough (Hosted)',
       'Control Room Glamour Reels',
@@ -139,7 +243,7 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
       'Precision in the valley.',
       'The Clubhouse: Audio Architecture.',
       'Your mix deserves this room.',
-      ' Rhinebeck’s sonic fortress.',
+      'Rhinebeck’s sonic fortress.',
       'Technical ecstasy.'
     ],
     quotes: [
@@ -148,6 +252,19 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
       '"Studio C captured the detail we pride ourselves on."'
     ],
     seo: ['The Clubhouse Rhinebeck', 'SSL Studio NY', 'Hudson Valley Recording', 'Professional Mixing Studio', 'Audio Engineering NY', 'Studio C Media', 'Destination Mixing'],
+    assets: {
+      hero: 'https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=2079&auto=format&fit=crop',
+      stills: [
+        'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1589154904791-7f41503c62ba?q=80&w=2070&auto=format&fit=crop'
+      ]
+    },
+    distribution: {
+      youtubeUrl: 'https://youtube.com/studioc/clubhouse',
+      instagramHandle: '@theclubhouse',
+      duration: '06:30'
+    },
     releasePlan: {
       youtube: 'Gear rundown with the head engineer.',
       socials: 'Carousel posts: "What\'s in the rack?"',
@@ -165,12 +282,32 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
     title: 'Matt Pond PA',
     subtitle: 'Utopia Session',
     type: 'Artist',
-    overview: 'A delicate, intimate capture of indie veteran Matt Pond. We stripped away the music video artifice to show the raw process of creation in a beautiful space.',
+    year: 2024,
+    tags: ['session', 'indie-folk', 'acoustic', 'intimate', 'performance'],
+    overview: 'A delicate, intimate capture of indie veteran Matt Pond. We stripped away the music video artifice to show the raw process of creation in a beautiful space. A single-take style performance captured at Utopia.',
     whatWeDid: {
       approach: 'Invisible & Observational. Fly-on-the-wall documentation.',
       visualLanguage: 'Soft focus, shallow depth of field, muted palette. Handheld but steady. Focus pulling between the artist and the environment.',
-      editorial: 'The vulnerability of the solo performance.'
+      editorial: 'The vulnerability of the solo performance. Music as it happens.'
     },
+    featureOutline: [
+      {
+        title: 'Opening: Tuning Up',
+        items: ['Ambient room noise', 'Checking the guitar', 'Silence']
+      },
+      {
+        title: 'The Performance',
+        items: ['Single continuous take', 'Slow push in', 'Focus on emotional delivery']
+      },
+      {
+        title: 'Interlude: The Room',
+        items: ['Cutaways to window light', 'Dust motes', 'The empty chair']
+      },
+      {
+        title: 'Closing: The Exhale',
+        items: ['Song ends', 'Natural reaction', 'Fade to black']
+      }
+    ],
     deliverables: [
       'Live Session Video (Full Song)',
       'Interview Cutdowns',
@@ -201,6 +338,19 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
       '"Studio C disappeared and let the music happen."'
     ],
     seo: ['Matt Pond PA', 'Indie Folk Session', 'Live at Utopia', 'Acoustic Performance', 'Music Video Production', 'Studio C Media', 'New Music Friday'],
+    assets: {
+      hero: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=2070&auto=format&fit=crop',
+      stills: [
+        'https://images.unsplash.com/photo-1453093282216-5668dc0436d6?q=80&w=2069&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1485579149621-3123dd979885?q=80&w=2031&auto=format&fit=crop'
+      ]
+    },
+    distribution: {
+      youtubeUrl: 'https://youtube.com/studioc/mattpond',
+      instagramHandle: '@mattpondpa',
+      duration: '04:12'
+    },
     releasePlan: {
       youtube: 'Premiere Friday 10AM EST.',
       socials: 'Chorus excerpt on TikTok.',
@@ -218,12 +368,36 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
     title: 'Amy Allen',
     subtitle: 'Artist Brand Build',
     type: 'Artist',
-    overview: 'Building a comprehensive narrative identity for a songwriter stepping into the spotlight. A long-term content engine designing the visual world of Amy Allen.',
+    year: 2024,
+    tags: ['brand-build', 'pop', 'fashion', 'editorial', 'identity'],
+    overview: 'Building a comprehensive narrative identity for a songwriter stepping into the spotlight. A long-term content engine designing the visual world of Amy Allen. From "behind the pen" to "behind the mic".',
     whatWeDid: {
       approach: 'Curated & Stylized. Fashion-forward meets studio grit.',
       visualLanguage: 'Film grain, flash photography, mixed media (Super 8 + Digital). High fashion editorial aesthetic.',
-      editorial: 'From behind the pen to behind the mic.'
+      editorial: 'From behind the pen to behind the mic. The songwriter becomes the star.'
     },
+    featureOutline: [
+      {
+        title: 'Opening: The City',
+        items: ['Subway noise', 'Motion blur', 'Walking to the session']
+      },
+      {
+        title: 'Chapter 1: The Notebook',
+        items: ['Writing process', 'Close ups of lyrics', 'The origin of the song']
+      },
+      {
+        title: 'Chapter 2: The Booth',
+        items: ['Vocal performance', 'Emotional release', 'The studio as a stage']
+      },
+      {
+        title: 'Chapter 3: The Image',
+        items: ['Photo shoot', 'Styling', 'Creating the persona']
+      },
+      {
+        title: 'Closing: The Artist',
+        items: ['Direct to camera stare', 'Confidence', 'The new chapter']
+      }
+    ],
     deliverables: [
       'EPK / Brand Mini-Doc',
       'Social Content Bank (30 days)',
@@ -242,7 +416,7 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
       'Stylized portrait with motion blur.'
     ],
     taglines: [
-      ' The songwriter speaks.',
+      'The songwriter speaks.',
       'Amy Allen: In her own words.',
       'Written by Amy.',
       'The story behind the hits.',
@@ -254,6 +428,20 @@ export const INITIAL_CASE_STUDIES: CaseStudy[] = [
       '"Studio C built a world around the music."'
     ],
     seo: ['Amy Allen', 'Songwriter', 'Pop Music', 'Artist Branding', 'Music Documentary', 'Studio C Media', 'Warner Records'],
+    assets: {
+      hero: 'https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=2070&auto=format&fit=crop',
+      stills: [
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=1887&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070&auto=format&fit=crop'
+      ]
+    },
+    distribution: {
+      youtubeUrl: 'https://youtube.com/studioc/amyallen',
+      instagramHandle: '@amyallen',
+      tiktokHandle: '@amyallen',
+      duration: 'Series'
+    },
     releasePlan: {
       youtube: 'Behind the scenes series "The Writing Process".',
       socials: 'Daily "Songwriting Tips" shorts.',
