@@ -6,6 +6,7 @@ import ComponentLibrary from './components/ComponentLibrary';
 import Generator from './components/Generator';
 import Playbook from './components/Playbook';
 import Dashboard from './components/Dashboard';
+import PartnerDashboard from './components/PartnerDashboard';
 import { INITIAL_CASE_STUDIES } from './data/initialContent';
 import { AppView, CaseStudy } from './types';
 import { LayoutGrid, Plus, Layers, BookOpen, Aperture, Command, Eye } from 'lucide-react';
@@ -36,7 +37,7 @@ const App: React.FC = () => {
   // Routing Logic based on Media Mode
   const handleViewChange = (view: AppView) => {
       // Prevent accessing admin routes in media mode
-      if (mediaMode && [AppView.GENERATOR, AppView.PLAYBOOK, AppView.PACKAGES].includes(view)) {
+      if (mediaMode && [AppView.GENERATOR, AppView.PLAYBOOK, AppView.PACKAGES, AppView.PARTNERS].includes(view)) {
           return;
       }
       setCurrentView(view);
@@ -82,6 +83,7 @@ const App: React.FC = () => {
         {currentView === AppView.LIBRARY && <ComponentLibrary />}
         {currentView === AppView.GENERATOR && !mediaMode && <Generator onSuccess={handleGeneratedSuccess} />}
         {currentView === AppView.PLAYBOOK && !mediaMode && <Playbook />}
+        {currentView === AppView.PARTNERS && !mediaMode && <PartnerDashboard />}
       </main>
     </div>
   );

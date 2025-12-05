@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CaseStudy, PipelineState, AgentName } from '../types';
 import { runPipelineForCaseStudy, PIPELINE_ORDER } from '../utils/orchestrator';
+import { Terminal, Activity } from 'lucide-react';
 
 interface PipelineRunnerProps {
   caseStudy: CaseStudy;
@@ -9,11 +10,11 @@ interface PipelineRunnerProps {
 }
 
 const LABELS: Record<AgentName, string> = {
-  RESEARCH_ANALYST: 'Research Analyst',
-  PRODUCTION_PLANNER: 'Production Planner',
-  SCENE_GENERATOR: 'Scene / Storyboard',
-  ASSET_DESIGNER: 'Asset Designer',
-  DISTRIBUTION_STRATEGIST: 'Distribution Strategist',
+  RESEARCH_ANALYST: 'AGNT_01: RESEARCH',
+  PRODUCTION_PLANNER: 'AGNT_02: PROD_PLAN',
+  SCENE_GENERATOR: 'AGNT_03: SCENE_GEN',
+  ASSET_DESIGNER: 'AGNT_04: ASSET_DSGN',
+  DISTRIBUTION_STRATEGIST: 'AGNT_05: DIST_STRAT',
 };
 
 export const PipelineRunner: React.FC<PipelineRunnerProps> = ({
@@ -47,87 +48,97 @@ export const PipelineRunner: React.FC<PipelineRunnerProps> = ({
   };
 
   return (
-    <div className="mt-16 border border-neutral-800 rounded-xl p-6 bg-neutral-950/70">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <p className="text-xs tracking-[0.25em] text-studio-accent uppercase mb-1">
-            Studio C Intelligence Pipeline
-          </p>
-          <p className="text-sm text-studio-muted">
-            Run the full multi-agent stack to generate production intelligence.
-          </p>
+    <div className="border border-studio-border bg-black font-mono relative overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-studio-border bg-studio-panel/50">
+        <div className="flex items-center gap-3">
+          <Terminal className="w-4 h-4 text-studio-accent" />
+          <div>
+            <p className="text-[10px] tracking-widest text-white uppercase font-bold">
+              Studio C Intelligence Pipeline
+            </p>
+          </div>
         </div>
         <button
           onClick={handleRun}
           disabled={running}
-          className="px-6 py-3 text-xs font-bold uppercase tracking-wider rounded border border-studio-border hover:bg-white hover:text-black transition-all disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-inherit"
+          className="px-6 py-2 text-[10px] font-bold uppercase tracking-widest border border-studio-border hover:bg-studio-accent hover:border-studio-accent hover:text-white transition-all disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-inherit disabled:hover:border-studio-border"
         >
-          {running ? 'Orchestrating...' : 'Run Pipeline'}
+          {running ? 'Processing...' : 'Execute Sequence'}
         </button>
       </div>
 
-      <div className="grid md:grid-cols-5 gap-3 mb-6">
+      {/* Agents Grid */}
+      <div className="grid grid-cols-5 border-b border-studio-border divide-x divide-studio-border">
         {PIPELINE_ORDER.map((agent) => {
           const result = state.results.find((r) => r.agent === agent);
           const isCurrent = state.currentAgent === agent;
           const success = result?.success;
           const failed = result && !result.success;
 
-          let bg = 'bg-neutral-900 border-neutral-800';
+          let bg = 'bg-black';
           let textColor = 'text-studio-muted';
+          let indicatorColor = 'bg-studio-border';
           
           if (success) {
-             bg = 'bg-emerald-900/20 border-emerald-900/50';
-             textColor = 'text-emerald-400';
+             textColor = 'text-white';
+             indicatorColor = 'bg-emerald-500';
           }
           if (failed) {
-             bg = 'bg-red-900/20 border-red-900/50';
-             textColor = 'text-red-400';
+             textColor = 'text-red-500';
+             indicatorColor = 'bg-red-500';
           }
           if (isCurrent) {
-             bg = 'bg-neutral-800 border-studio-accent animate-pulse';
-             textColor = 'text-white';
+             bg = 'bg-studio-panel';
+             textColor = 'text-studio-accent';
+             indicatorColor = 'bg-studio-accent animate-pulse';
           }
 
           return (
             <div
               key={agent}
-              className={`${bg} border rounded-lg p-3 flex flex-col gap-2 transition-all duration-300`}
+              className={`${bg} p-4 flex flex-col justify-between h-24 transition-colors duration-200`}
             >
-              <span className="uppercase tracking-[0.1em] text-[8px] opacity-60">
+              <div className={`w-1.5 h-1.5 rounded-full ${indicatorColor} mb-2`}></div>
+              <span className="text-[9px] tracking-wider opacity-60">
                 {LABELS[agent]}
               </span>
-              <span className={`text-[10px] font-medium ${textColor}`}>
-                {success && 'Complete'}
-                {failed && 'Error'}
-                {!success && !failed && !isCurrent && 'Pending'}
-                {isCurrent && 'Running...'}
+              <span className={`text-[10px] font-bold uppercase ${textColor}`}>
+                {success && 'OK'}
+                {failed && 'ERR'}
+                {!success && !failed && !isCurrent && 'WAIT'}
+                {isCurrent && 'RUNNING'}
               </span>
             </div>
           );
         })}
       </div>
 
-      {state.results.length > 0 && (
-        <div className="max-h-60 overflow-y-auto text-xs bg-black/40 border border-neutral-900 rounded-lg p-4 space-y-3 custom-scrollbar">
+      {/* Console Output */}
+      <div className="h-48 bg-black p-4 overflow-y-auto custom-scrollbar relative">
+        <div className="absolute top-2 right-2 text-[9px] text-studio-muted">CONSOLE_OUT</div>
+        {state.results.length === 0 && !running && (
+           <div className="text-studio-muted text-xs opacity-30 mt-2">Awaiting command...</div>
+        )}
+        <div className="space-y-2">
           {state.results.map((r, idx) => (
-            <div key={idx} className="border-b border-neutral-900 pb-2 last:border-none">
-              <div className="flex items-center gap-2 mb-1">
-                 <span className={`w-1.5 h-1.5 rounded-full ${r.success ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
-                 <span className="font-mono text-[10px] text-neutral-500 uppercase">
-                  {r.agent}
-                 </span>
-              </div>
-              <p className="text-neutral-400 pl-3.5">
-                {r.message}
-              </p>
+            <div key={idx} className="flex gap-3 text-xs font-light">
+              <span className="text-studio-muted opacity-50">[{new Date(r.finishedAt).toLocaleTimeString().split(' ')[0]}]</span>
+              <span className="text-studio-accent uppercase text-[10px] min-w-[120px]">{r.agent.replace('_', ' ')}</span>
+              <span className="text-neutral-300">{r.message}</span>
               {r.error && (
-                <p className="text-red-400 mt-1 pl-3.5">Error: {r.error}</p>
+                <span className="text-red-500 block ml-[180px]">ERR: {r.error}</span>
               )}
             </div>
           ))}
+          {running && (
+             <div className="flex gap-3 text-xs font-light animate-pulse">
+                <span className="text-studio-accent">&gt;</span>
+                <span className="text-neutral-400">Processing...</span>
+             </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
