@@ -2,8 +2,93 @@ import React, { useState } from 'react';
 import { ANCHOR_PARTNERS } from '../data/anchorPartners';
 import { SENNHEISER_SPONSOR } from '../data/sponsors';
 import { PartnerStudio } from '../types/anchor';
-import { Sponsor } from '../types/sponsor';
-import { Building2, MapPin, Users, TrendingUp, DollarSign, Calendar, Star, Box, ArrowRight } from 'lucide-react';
+import { registerConversion } from '../services/conversionService';
+import { Building2, MapPin, Users, TrendingUp, DollarSign, Calendar, Box } from 'lucide-react';
+
+// Internal Admin Component for Logging Conversions
+const ConversionQuickAdd: React.FC<{ defaultStudioId: string }> = ({
+  defaultStudioId,
+}) => {
+  const [studioId, setStudioId] = useState(defaultStudioId);
+  const [caseStudyId, setCaseStudyId] = useState("");
+  const [value, setValue] = useState("");
+  const [status, setStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus(null);
+    try {
+      await registerConversion({
+        studioId,
+        caseStudyId,
+        value: Number(value),
+        source: "partner_manual",
+      });
+      setStatus("Saved");
+      setValue("");
+      // keep caseStudyId for rapid entry
+    } catch (err: any) {
+      console.error(err);
+      setStatus(err.message || "Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="mt-6 p-6 border border-studio-border bg-studio-panel/30"
+    >
+      <h3 className="font-serif text-lg text-white mb-4">Log Manual Conversion</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="space-y-2">
+            <label className="text-[9px] font-bold text-studio-muted uppercase tracking-widest">Studio ID</label>
+            <input
+            className="w-full bg-studio-base border border-studio-border px-4 py-3 text-white text-sm font-mono focus:border-white outline-none transition-colors"
+            placeholder="e.g. ardent"
+            value={studioId}
+            onChange={(e) => setStudioId(e.target.value)}
+            />
+        </div>
+        <div className="space-y-2">
+            <label className="text-[9px] font-bold text-studio-muted uppercase tracking-widest">Case Study ID</label>
+            <input
+            className="w-full bg-studio-base border border-studio-border px-4 py-3 text-white text-sm font-mono focus:border-white outline-none transition-colors"
+            placeholder="e.g. ardent-doc-01"
+            value={caseStudyId}
+            onChange={(e) => setCaseStudyId(e.target.value)}
+            />
+        </div>
+        <div className="space-y-2">
+            <label className="text-[9px] font-bold text-studio-muted uppercase tracking-widest">Revenue Value ($)</label>
+            <input
+            className="w-full bg-studio-base border border-studio-border px-4 py-3 text-white text-sm font-mono focus:border-white outline-none transition-colors"
+            placeholder="e.g. 12000"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            />
+        </div>
+      </div>
+      <div className="flex items-center gap-4">
+        <button
+            type="submit"
+            disabled={loading}
+            className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest bg-studio-accent text-white hover:bg-white hover:text-black transition-colors disabled:opacity-50"
+        >
+            {loading ? "Saving..." : "Record Transaction"}
+        </button>
+        {status && (
+            <span className={`text-xs font-mono ${status === 'Saved' ? 'text-emerald-500' : 'text-red-500'}`}>
+                {status === 'Saved' ? '>> TRANSACTION RECORDED SUCCESSFULLY' : `>> ERROR: ${status}`}
+            </span>
+        )}
+      </div>
+    </form>
+  );
+};
 
 const PartnerDashboard: React.FC = () => {
   const [selectedPartner, setSelectedPartner] = useState<PartnerStudio | null>(null);
@@ -79,33 +164,41 @@ const PartnerDashboard: React.FC = () => {
 
                 {/* Expanded Details */}
                 {selectedPartner?.id === partner.id && (
-                    <div className="pl-[88px] pt-8 border-t border-studio-border/50 grid grid-cols-1 md:grid-cols-2 gap-12 animate-in fade-in duration-300">
-                        <div>
-                            <h4 className="text-[10px] text-studio-muted uppercase tracking-widest mb-4">Recurring Projects</h4>
-                            <ul className="space-y-3">
-                                {partner.recurringProjects.map((proj, i) => (
-                                    <li key={i} className="text-sm text-white flex items-center gap-3 border-l border-studio-border pl-3 hover:border-studio-accent transition-colors">
-                                        <span className="text-xs text-neutral-500 font-mono">{proj.year}</span>
-                                        {proj.title}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-[10px] text-studio-muted uppercase tracking-widest mb-4">Opportunities</h4>
-                            <div className="space-y-2 font-mono text-xs">
-                                {partner.brandOpportunities.gearSponsorships && (
-                                    <div className="flex items-center gap-2 text-neutral-300">
-                                        <Box className="w-3 h-3 text-emerald-500" /> [SPONSORSHIP_ELIGIBLE]
-                                    </div>
-                                )}
-                                {partner.brandOpportunities.artistPipeline && (
-                                    <div className="flex items-center gap-2 text-neutral-300">
-                                        <Users className="w-3 h-3 text-emerald-500" /> [ARTIST_PIPELINE]
-                                    </div>
-                                )}
-                                <p className="text-neutral-500 mt-4 italic font-sans">"{partner.brandOpportunities.notes}"</p>
+                    <div className="pl-[88px] pt-8 border-t border-studio-border/50 grid grid-cols-1 gap-12 animate-in fade-in duration-300">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div>
+                                <h4 className="text-[10px] text-studio-muted uppercase tracking-widest mb-4">Recurring Projects</h4>
+                                <ul className="space-y-3">
+                                    {partner.recurringProjects.map((proj, i) => (
+                                        <li key={i} className="text-sm text-white flex items-center gap-3 border-l border-studio-border pl-3 hover:border-studio-accent transition-colors">
+                                            <span className="text-xs text-neutral-500 font-mono">{proj.year}</span>
+                                            {proj.title}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
+                            <div>
+                                <h4 className="text-[10px] text-studio-muted uppercase tracking-widest mb-4">Opportunities</h4>
+                                <div className="space-y-2 font-mono text-xs">
+                                    {partner.brandOpportunities.gearSponsorships && (
+                                        <div className="flex items-center gap-2 text-neutral-300">
+                                            <Box className="w-3 h-3 text-emerald-500" /> [SPONSORSHIP_ELIGIBLE]
+                                        </div>
+                                    )}
+                                    {partner.brandOpportunities.artistPipeline && (
+                                        <div className="flex items-center gap-2 text-neutral-300">
+                                            <Users className="w-3 h-3 text-emerald-500" /> [ARTIST_PIPELINE]
+                                        </div>
+                                    )}
+                                    <p className="text-neutral-500 mt-4 italic font-sans">"{partner.brandOpportunities.notes}"</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Manual Conversion Tool */}
+                        <div className="border-t border-studio-border/50 pt-8">
+                            <h4 className="text-[10px] text-studio-muted uppercase tracking-widest mb-4">Admin Controls</h4>
+                            <ConversionQuickAdd defaultStudioId={partner.id} />
                         </div>
                     </div>
                 )}
